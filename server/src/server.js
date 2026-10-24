@@ -1,11 +1,6 @@
-import express from "express";
-const app=express();
+import app from "./app.js"
 const port=3000;
-app.get("/api/health",(req,res)=>{
-  res.json({
-    "status": "OKhello"
-  })
-})
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`server is running on port ${port}` );
+  
 });
