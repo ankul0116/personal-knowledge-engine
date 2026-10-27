@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "RecallOS backend: personal knowledge engine API",
-  "main": "src/server.js",
+  "main": "src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --watch src/server.ts",
+    "dev": "node --env-file=.env --watch src/server.ts",
     "typecheck": "tsc"
   },
   "keywords": [],
