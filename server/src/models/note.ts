@@ -1,17 +1,14 @@
 import { model,Schema } from "mongoose";
-
-import mongoose from "mongoose";
-
 const noteSchema = new Schema(
   {
     owner: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
 
-    collection: {
-      type: mongoose.Schema.Types.ObjectId,
+    collectionId: {
+      type:Schema.Types.ObjectId,
       ref: "Collection",
       default: null,
     },
@@ -20,6 +17,7 @@ const noteSchema = new Schema(
       type: String,
       required: true,
       trim: true,
+      maxLength:200
     },
 
     content: {
@@ -27,10 +25,7 @@ const noteSchema = new Schema(
       default: "",
     },
 
-    tags: {
-      type: [String],
-      default: [],
-    },
+    tags: [{ type: String, lowercase: true, trim: true }],
 
     isPinned: {
       type: Boolean,
@@ -40,6 +35,7 @@ const noteSchema = new Schema(
     sourceUrl: {
       type: String,
       default: null,
+      trim : true
     },
 
     lastAccessedAt: {
@@ -53,6 +49,7 @@ const noteSchema = new Schema(
 );
 
 noteSchema.index({ owner: 1, updatedAt: -1 });
+noteSchema.index({ owner: 1, tags: 1 });
 
 noteSchema.index({
   title: "text",
