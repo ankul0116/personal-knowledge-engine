@@ -15,7 +15,7 @@ export const register = async (req: Request, res: Response) => {
     return res.status(400).json({ error: { 
       code: "VALIDATION_ERROR",
       message: "Invalid input",
-      error : result.error.issues } });
+      details : result.error.issues } });
 
   }
   // 2. hash the password
