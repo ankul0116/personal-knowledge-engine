@@ -5,3 +5,7 @@ export const registerSchema =z.object({
   //.pipe() passes the cleaned-up string into the email check
   password : z.string().min(8).max(72)
 })
+export const loginSchema = z.object({
+  email : z.string().trim().toLowerCase().pipe(z.email()),
+  password : z.string().min(1).max(72)
+})
