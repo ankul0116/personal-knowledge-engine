@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.ts";
 import env from "../config/env.ts";
 import { registerSchema, loginSchema } from "../schemas/auth.schema.ts";
+import { unauthenticated } from "../middleware/requireAuth.ts";
 
 const TOKEN_TTL_DAYS = 7;
 
@@ -82,6 +83,23 @@ export const login = async (req: Request, res: Response) => {
 
   // 6. Respond with safe fields, never the token
   return res.status(200).json({
+    data: { id: user._id, name: user.name, email: user.email },
+  });
+};
+export const me = async (req: Request, res: Response) => {
+  if (!req.userId) {
+    return res.status(401).json(unauthenticated);
+  }
+
+  // passwordHash is not returned because of select: false on the schema
+  const user = await User.findById(req.userId);
+
+  // The token is valid, but the account was deleted
+  if (!user) {
+    return res.status(401).json(unauthenticated);
+  }
+
+  res.status(200).json({
     data: { id: user._id, name: user.name, email: user.email },
   });
 };
